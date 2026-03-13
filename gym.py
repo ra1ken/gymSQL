@@ -10,7 +10,6 @@ cur = con.cursor()
 tablelist = cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='gymstats';").fetchall()
 
 if len(tablelist) == 0:
-    #initialize db
     cur.execute("CREATE TABLE gymstats(exercise, weight, date, reps)")
 else:
     print(tablelist)
@@ -42,21 +41,13 @@ if val1 == "notOk":
 
 print("weight (in kg):")
 val2 = int(input())
-val3= dt.datetime.now()
+val3= str((dt.datetime.now().day,dt.datetime.now().month,dt.datetime.now().year))
 print("amount of reps:")
 val4 = int(input())
 
-data = cur.execute("SELECT * FROM gymstats")
-print(data)
 
-# it werks :>
-cur.execute(f"INSERT INTO gymstats VALUES('{val1}','{val2}','{val3}',{val4})")
+cur.execute('INSERT INTO gymstats VALUES(?,?,?,?)', (val1,val2,val3,val4))
 con.commit()
 con.close()
-
-
-#print("db exists :)")
-#table_list = [a for a in cur.execute("SELECT name FROM sqlite_master WHERE type = 'table'")]
-# print(table_list)
 
 
